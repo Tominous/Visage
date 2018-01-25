@@ -24,6 +24,11 @@
 
 package com.surgeplay.visage.util;
 
+import com.github.steveice10.mc.auth.data.GameProfile;
+import com.github.steveice10.mc.auth.data.GameProfile.Texture;
+import com.github.steveice10.mc.auth.data.GameProfile.TextureModel;
+import com.github.steveice10.mc.auth.data.GameProfile.TextureType;
+import com.google.common.collect.Maps;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -31,60 +36,52 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 
-import com.github.steveice10.mc.auth.data.GameProfile;
-import com.github.steveice10.mc.auth.data.GameProfile.Texture;
-import com.github.steveice10.mc.auth.data.GameProfile.TextureModel;
-import com.github.steveice10.mc.auth.data.GameProfile.TextureType;
-import com.google.common.collect.Maps;
-
 public class Profiles {
-	public static boolean isSlim(GameProfile profile) throws IOException {
-		if (profile.getTextures().containsKey(TextureType.SKIN)) {
-			Texture t = profile.getTexture(TextureType.SKIN);
-			return t.getModel() == TextureModel.SLIM;
-		}
-		return UUIDs.isAlex(profile.getId());
-	}
-	
-	public static boolean isFlipped(GameProfile profile) {
-		return "Dinnerbone".equals(profile.getName()) ||
-				"Grumm".equals(profile.getName());
-	}
+  public static boolean isSlim(GameProfile profile) throws IOException {
+    if (profile.getTextures().containsKey(TextureType.SKIN)) {
+      Texture t = profile.getTexture(TextureType.SKIN);
+      return t.getModel() == TextureModel.SLIM;
+    }
+    return UUIDs.isAlex(profile.getId());
+  }
 
-	public static GameProfile readGameProfile(DataInputStream data) throws IOException {
-		boolean present = data.readBoolean();
-		if (!present)
-			return new GameProfile(new UUID(0, 0), "<unknown>");
-		UUID uuid = new UUID(data.readLong(), data.readLong());
-		String name = data.readUTF();
-		GameProfile profile = new GameProfile(uuid, name);
-		int len = data.readUnsignedShort();
-		for (int i = 0; i < len; i++) {
-			TextureType type = TextureType.values()[data.readUnsignedByte()];
-			TextureModel model = TextureModel.values()[data.readUnsignedByte()];
-			String url = data.readUTF();
-			Map<String, String> m = Maps.newHashMap();
-			m.put("model", model.name().toLowerCase(Locale.ROOT));
-			profile.getTextures().put(type, new Texture(url, m));
-		}
-		return profile;
-	}
+  public static boolean isFlipped(GameProfile profile) {
+    return "Dinnerbone".equals(profile.getName()) || "Grumm".equals(profile.getName());
+  }
 
-	public static void writeGameProfile(DataOutputStream data, GameProfile profile) throws IOException {
-		if (profile == null) {
-			data.writeBoolean(false);
-			return;
-		}
-		data.writeBoolean(true);
-		data.writeLong(profile.getId().getMostSignificantBits());
-		data.writeLong(profile.getId().getLeastSignificantBits());
-		data.writeUTF(profile.getName());
-		data.writeShort(profile.getTextures().size());
-		for (Map.Entry<TextureType, Texture> en : profile.getTextures().entrySet()) {
-			data.writeByte(en.getKey().ordinal());
-			data.writeByte(en.getValue().getModel().ordinal());
-			data.writeUTF(en.getValue().getURL());
-		}
-	}
-	
+  public static GameProfile readGameProfile(DataInputStream data) throws IOException {
+    boolean present = data.readBoolean();
+    if (!present) return new GameProfile(new UUID(0, 0), "<unknown>");
+    UUID uuid = new UUID(data.readLong(), data.readLong());
+    String name = data.readUTF();
+    GameProfile profile = new GameProfile(uuid, name);
+    int len = data.readUnsignedShort();
+    for (int i = 0; i < len; i++) {
+      TextureType type = TextureType.values()[data.readUnsignedByte()];
+      TextureModel model = TextureModel.values()[data.readUnsignedByte()];
+      String url = data.readUTF();
+      Map<String, String> m = Maps.newHashMap();
+      m.put("model", model.name().toLowerCase(Locale.ROOT));
+      profile.getTextures().put(type, new Texture(url, m));
+    }
+    return profile;
+  }
+
+  public static void writeGameProfile(DataOutputStream data, GameProfile profile)
+      throws IOException {
+    if (profile == null) {
+      data.writeBoolean(false);
+      return;
+    }
+    data.writeBoolean(true);
+    data.writeLong(profile.getId().getMostSignificantBits());
+    data.writeLong(profile.getId().getLeastSignificantBits());
+    data.writeUTF(profile.getName());
+    data.writeShort(profile.getTextures().size());
+    for (Map.Entry<TextureType, Texture> en : profile.getTextures().entrySet()) {
+      data.writeByte(en.getKey().ordinal());
+      data.writeByte(en.getValue().getModel().ordinal());
+      data.writeUTF(en.getValue().getURL());
+    }
+  }
 }

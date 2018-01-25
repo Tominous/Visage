@@ -25,6 +25,6 @@
 package com.surgeplay.visage.distributor;
 
 public class RenderResponse {
-	public String renderer;
-	public byte[] png;
+  public String renderer;
+  public byte[] png;
 }

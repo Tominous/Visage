@@ -26,31 +26,29 @@ package com.surgeplay.visage.renderer.render.primitive;
 
 import static org.lwjgl.opengl.GL15.*;
 
-import java.nio.FloatBuffer;
-
-import org.lwjgl.BufferUtils;
-
 import com.surgeplay.visage.Visage;
 import com.surgeplay.visage.renderer.RenderContext;
 import com.surgeplay.visage.renderer.render.Renderer;
+import java.nio.FloatBuffer;
+import org.lwjgl.BufferUtils;
 
 public class Plane extends Primitive {
-	private int tcbo = Integer.MAX_VALUE;
-	
-	@Override
-	public void render(Renderer renderer) {
-		if (tcbo == Integer.MAX_VALUE) {
-			if (Visage.trace) Visage.log.finest("Creating texture coord buffer");
-			tcbo = glGenBuffers();
-			FloatBuffer uv = BufferUtils.createFloatBuffer(texture.u.length+texture.v.length);
-			for (int i = 0; i < texture.u.length; i++) {
-				uv.put(texture.u[i]);
-				uv.put(texture.v[i]);
-			}
-			uv.flip();
-			glBindBuffer(GL_ARRAY_BUFFER, tcbo);
-			glBufferData(GL_ARRAY_BUFFER, uv, GL_STATIC_DRAW);
-		}
-		doRender(renderer, renderer.owner.planeVbo, tcbo, RenderContext.planeVertices);
-	}
+  private int tcbo = Integer.MAX_VALUE;
+
+  @Override
+  public void render(Renderer renderer) {
+    if (tcbo == Integer.MAX_VALUE) {
+      if (Visage.trace) Visage.log.finest("Creating texture coord buffer");
+      tcbo = glGenBuffers();
+      FloatBuffer uv = BufferUtils.createFloatBuffer(texture.u.length + texture.v.length);
+      for (int i = 0; i < texture.u.length; i++) {
+        uv.put(texture.u[i]);
+        uv.put(texture.v[i]);
+      }
+      uv.flip();
+      glBindBuffer(GL_ARRAY_BUFFER, tcbo);
+      glBufferData(GL_ARRAY_BUFFER, uv, GL_STATIC_DRAW);
+    }
+    doRender(renderer, renderer.owner.planeVbo, tcbo, RenderContext.planeVertices);
+  }
 }

@@ -25,6 +25,7 @@
 package com.surgeplay.visage;
 
 public interface VisageRunner {
-	void start();
-	void shutdown();
+  void start();
+
+  void shutdown();
 }

@@ -25,33 +25,38 @@
 package com.surgeplay.visage;
 
 public enum RenderMode {
-	
-	FACE,
-	FRONT,
-	FRONTFULL,
-	
-	HEAD,
-	BUST,
-	FULL,
-	
-	SKIN,
-	;
-	
-	
-	public boolean isTall() {
-		switch (this) {
-			case FULL: return true;
-			case FRONTFULL: return true;
-			default: return false;
-		}
-	}
-	
-	public boolean is3D() {
-		switch (this) {
-			case HEAD: return true;
-			case BUST: return true;
-			case FULL: return true;
-			default: return false;
-		}
-	}
+  FACE,
+  FRONT,
+  FRONTFULL,
+
+  HEAD,
+  BUST,
+  FULL,
+
+  SKIN,
+  ;
+
+  public boolean isTall() {
+    switch (this) {
+      case FULL:
+        return true;
+      case FRONTFULL:
+        return true;
+      default:
+        return false;
+    }
+  }
+
+  public boolean is3D() {
+    switch (this) {
+      case HEAD:
+        return true;
+      case BUST:
+        return true;
+      case FULL:
+        return true;
+      default:
+        return false;
+    }
+  }
 }

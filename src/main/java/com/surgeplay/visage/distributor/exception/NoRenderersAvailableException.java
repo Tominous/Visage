@@ -25,26 +25,26 @@
 package com.surgeplay.visage.distributor.exception;
 
 public class NoRenderersAvailableException extends Exception {
-	private static final long serialVersionUID = -1249873765125395486L;
-	public NoRenderersAvailableException() {
-		super();
-	}
+  private static final long serialVersionUID = -1249873765125395486L;
 
-	public NoRenderersAvailableException(String message, Throwable cause,
-			boolean enableSuppression, boolean writableStackTrace) {
-		super(message, cause, enableSuppression, writableStackTrace);
-	}
+  public NoRenderersAvailableException() {
+    super();
+  }
 
-	public NoRenderersAvailableException(String message, Throwable cause) {
-		super(message, cause);
-	}
+  public NoRenderersAvailableException(
+      String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    super(message, cause, enableSuppression, writableStackTrace);
+  }
 
-	public NoRenderersAvailableException(String message) {
-		super(message);
-	}
+  public NoRenderersAvailableException(String message, Throwable cause) {
+    super(message, cause);
+  }
 
-	public NoRenderersAvailableException(Throwable cause) {
-		super(cause);
-	}
+  public NoRenderersAvailableException(String message) {
+    super(message);
+  }
 
+  public NoRenderersAvailableException(Throwable cause) {
+    super(cause);
+  }
 }
